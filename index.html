@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tlak</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <button
+    type="button"
+    class="weight-toggle"
+    id="weightToggleBtn"
+    aria-pressed="true"
+  >
+    Skrýt tíhu
+  </button>
+
+  <button
+    type="button"
+    class="pressure-calc-toggle"
+    id="pressureCalcToggleBtn"
+    aria-pressed="false"
+  >
+    Výpočet tlaku
+  </button>
+
+  <div class="stats-panel" aria-live="polite">
+    <p class="stats-panel__item">
+      Celková tíha krychlí =
+      <span class="stats-panel__value" id="totalWeightValue">0</span>
+      N
+    </p>
+    <p class="stats-panel__item">
+      Celková plocha =
+      <span class="stats-panel__value" id="totalAreaValue">0</span>
+      m²
+    </p>
+    <p class="stats-panel__item stats-panel__item--pressure">
+      <span class="stats-panel__pressure-display" id="pressureDisplay">
+        Tlak =
+        <span class="stats-panel__value" id="totalPressureValue">0</span>
+        N na m²
+      </span>
+      <span class="stats-panel__calc" id="pressureCalc" hidden>
+        Tlak =
+        <span class="stats-panel__field">
+          <input
+            type="text"
+            class="stats-panel__input"
+            id="pressureInput"
+            inputmode="decimal"
+            autocomplete="off"
+            aria-label="Vypočtený tlak"
+          />
+        </span>
+        <button type="button" class="stats-panel__verify" id="pressureVerifyBtn">
+          Ověřit
+        </button>
+        N na m²
+        <span class="stats-panel__feedback" id="pressureFeedback" hidden></span>
+      </span>
+    </p>
+  </div>
+
+  <div class="cube-stack" id="cubeStack" aria-label="Zásobník krychlí">
+    <img
+      class="cube-stack__preview"
+      src="assets/cube.svg"
+      alt=""
+      width="124"
+      height="123"
+      draggable="false"
+    />
+  </div>
+
+  <main class="scene" aria-label="Simulace tlaku">
+    <div class="stage" id="stage">
+      <div class="floor" id="floor" aria-label="Podlaha se 10 čtverci"></div>
+      <div class="cube-layer" id="cubeLayer" aria-label="Krychle na ploše"></div>
+    </div>
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>
