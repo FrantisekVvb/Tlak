@@ -13,11 +13,16 @@ body {
   touch-action: manipulation;
 }
 
-.weight-toggle {
+.toolbar--modes {
   position: fixed;
   top: 16px;
   left: 16px;
   z-index: 25;
+  display: flex;
+  gap: 8px;
+}
+
+.mode-toggle {
   padding: 10px 14px;
   border: 2px solid #1a1a1a;
   border-radius: 10px;
@@ -28,52 +33,53 @@ body {
   cursor: pointer;
 }
 
-.weight-toggle[aria-pressed="true"] {
-  background: #1a1a1a;
-  color: #fff;
-}
-
-.weight-toggle:hover {
-  background: #f5f5f5;
-}
-
-.weight-toggle[aria-pressed="true"]:hover {
-  background: #333;
-}
-
-.pressure-calc-toggle {
+.mode-toggle--calc {
   position: fixed;
   top: 58px;
   left: 16px;
   z-index: 25;
-  padding: 10px 14px;
-  border: 2px solid #1a1a1a;
-  border-radius: 10px;
-  background: #fff;
-  font: inherit;
-  font-size: 0.92rem;
-  font-weight: 600;
-  cursor: pointer;
 }
 
-.pressure-calc-toggle[aria-pressed="true"] {
+.mode-toggle--weight {
+  position: fixed;
+  top: 100px;
+  left: 16px;
+  z-index: 25;
+}
+
+.mode-toggle--area {
+  position: fixed;
+  top: 142px;
+  left: 16px;
+  z-index: 25;
+}
+
+.mode-toggle[aria-pressed="true"] {
   background: #1a1a1a;
   color: #fff;
 }
 
-.pressure-calc-toggle:hover {
+.mode-toggle:hover {
   background: #f5f5f5;
 }
 
-.pressure-calc-toggle[aria-pressed="true"]:hover {
+.mode-toggle[aria-pressed="true"]:hover {
   background: #333;
 }
 
-.stats-panel {
+.side-panel {
   position: fixed;
   top: 16px;
   right: 16px;
   z-index: 25;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+  max-width: min(92vw, 320px);
+}
+
+.stats-panel {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -93,25 +99,38 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+.stats-panel__item--weight,
+.stats-panel__item--area,
 .stats-panel__item--pressure {
   white-space: normal;
-  max-width: min(92vw, 320px);
 }
 
-.stats-panel__pressure-display,
-.stats-panel__calc {
+.stats-panel__weight-display,
+.stats-panel__area-display,
+.stats-panel__pressure-display {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 6px;
 }
 
+.stats-panel__weight-display[hidden],
+.stats-panel__area-display[hidden],
 .stats-panel__pressure-display[hidden],
 .stats-panel__calc[hidden] {
   display: none !important;
 }
 
 .stats-panel__calc {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.stats-panel__calc-row {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 6px;
 }
@@ -146,23 +165,7 @@ body {
   outline: none;
 }
 
-.stats-panel__verify {
-  padding: 5px 10px;
-  border: 2px solid #1a1a1a;
-  border-radius: 6px;
-  background: #fff;
-  font: inherit;
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.stats-panel__verify:hover {
-  background: #f5f5f5;
-}
-
 .stats-panel__feedback {
-  flex: 1 1 100%;
   font-size: 0.82rem;
   font-weight: 600;
 }
@@ -175,31 +178,51 @@ body {
   color: #b91c1c;
 }
 
-.cube-stack {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  z-index: 20;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.math-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 6px;
-  padding: 12px 16px 10px;
-  transform: translateX(-50%);
-  cursor: grab;
-  user-select: none;
-  touch-action: none;
+  padding: 10px;
+  border: 2px solid #1a1a1a;
+  border-radius: 10px;
+  background: #fff;
 }
 
-.cube-stack:active {
-  cursor: grabbing;
+.math-keypad[hidden] {
+  display: none !important;
 }
 
-.cube-stack__preview {
-  display: block;
-  width: clamp(68.4px, 13.3vw, 117.8px);
-  height: auto;
-  pointer-events: none;
+.math-keypad__key {
+  min-height: 40px;
+  padding: 8px;
+  border: 2px solid #1a1a1a;
+  border-radius: 8px;
+  background: #fff;
+  color: #1a1a1a;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.math-keypad__key:hover {
+  background: #f5f5f5;
+}
+
+.math-keypad__key:active {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+.math-keypad__key--action {
+  font-size: 1.15rem;
+}
+
+.math-keypad__key--verify {
+  grid-column: 1 / -1;
+  font-size: 0.92rem;
 }
 
 .scene {
@@ -208,7 +231,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 120px 24px 72px;
+  padding: 96px 24px 72px;
   overflow: visible;
 }
 
@@ -217,7 +240,6 @@ body {
   --stage-height: 457;
   --floor-view-height: 119;
   --cube-width: 117.8;
-  --cube-snap-scale-x: 1.055;
   position: relative;
   width: min(92vw, 922px);
   aspect-ratio: var(--stage-width) / var(--stage-height);
@@ -230,6 +252,7 @@ body {
   right: 0;
   bottom: 0;
   height: calc(var(--floor-view-height) / var(--stage-height) * 100%);
+  transform: translate(150px, -150px);
 }
 
 .floor-svg {
@@ -244,6 +267,7 @@ body {
 
 .floor-tile__highlight {
   pointer-events: none;
+  paint-order: stroke fill;
 }
 
 .cube-layer {
@@ -251,10 +275,13 @@ body {
   inset: 0;
   pointer-events: none;
   overflow: visible;
+  transform: translate(150px, -150px);
+  isolation: isolate;
 }
 
 .cube {
   position: absolute;
+  z-index: 2;
   width: calc(var(--cube-width) / var(--stage-width) * 100%);
   aspect-ratio: 124 / 123;
   cursor: grab;
@@ -265,26 +292,109 @@ body {
   overflow: visible;
 }
 
-.cube img {
+.cube__shape {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
   pointer-events: none;
 }
 
-.cube.is-snapped img {
-  transform: scaleX(var(--cube-snap-scale-x));
-  transform-origin: 50% 100%;
+.cube__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
 }
 
-.cube.is-dragging {
+.cube__base-edges {
+  display: none;
+  pointer-events: none;
+}
+
+body.mode-hide-floor .cube__base-edges {
+  display: block;
+}
+
+.cube-mass {
+  position: absolute;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  color: #003cff;
+  font-size: clamp(0.7rem, 1.7vw, 0.95rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+body.mode-hide-mass .cube-mass {
+  display: none;
+}
+
+body.mode-hide-floor .floor {
+  visibility: hidden;
+}
+
+body.mode-object-locked .cube {
+  cursor: default;
+}
+
+body.mode-object-locked .cube-handle {
+  display: none;
+}
+
+.cube-handle {
+  position: absolute;
+  z-index: 5;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 2px solid #003cff;
+  border-radius: 50%;
+  background: #fff;
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  pointer-events: auto;
+  touch-action: none;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+}
+
+.cube-handle--width {
+  cursor: ew-resize;
+}
+
+.cube-handle--height {
+  cursor: ns-resize;
+}
+
+.cube-handle:hover,
+.cube-handle:focus-visible {
+  background: #e8eeff;
+  outline: none;
+}
+
+.cube.is-dragging,
+.cube.is-resizing {
   cursor: grabbing;
   z-index: 40;
   filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.18));
 }
 
+.cube.is-resizing .cube-handle--width {
+  cursor: ew-resize;
+}
+
+.cube.is-resizing .cube-handle--height {
+  cursor: ns-resize;
+}
+
 .weight-marker {
   position: absolute;
+  z-index: -1;
   pointer-events: none;
 }
 
@@ -303,23 +413,39 @@ body {
 }
 
 @media (max-width: 480px) {
-  .weight-toggle {
+  .toolbar--modes {
     top: 12px;
     left: 12px;
+    gap: 6px;
+  }
+
+  .mode-toggle {
     padding: 8px 12px;
     font-size: 0.84rem;
   }
 
-  .pressure-calc-toggle {
+  .mode-toggle--calc {
     top: 52px;
     left: 12px;
-    padding: 8px 12px;
-    font-size: 0.84rem;
+  }
+
+  .mode-toggle--weight {
+    top: 92px;
+    left: 12px;
+  }
+
+  .mode-toggle--area {
+    top: 132px;
+    left: 12px;
+  }
+
+  .side-panel {
+    top: 12px;
+    right: 12px;
+    gap: 8px;
   }
 
   .stats-panel {
-    top: 12px;
-    right: 12px;
     gap: 6px;
   }
 
@@ -328,7 +454,18 @@ body {
     font-size: 0.84rem;
   }
 
+  .math-keypad {
+    gap: 5px;
+    padding: 8px;
+  }
+
+  .math-keypad__key {
+    min-height: 36px;
+    padding: 6px;
+    font-size: 0.95rem;
+  }
+
   .scene {
-    padding-top: 108px;
+    padding-top: 96px;
   }
 }
