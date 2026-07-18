@@ -16,34 +16,34 @@
     >
       Laboratoř
     </button>
+
+    <button
+      type="button"
+      class="mode-toggle"
+      id="pressureCalcToggleBtn"
+      aria-pressed="false"
+    >
+      Výpočet tlaku
+    </button>
+
+    <button
+      type="button"
+      class="mode-toggle"
+      id="weightCalcToggleBtn"
+      aria-pressed="false"
+    >
+      Výpočet tíhy
+    </button>
+
+    <button
+      type="button"
+      class="mode-toggle"
+      id="areaCalcToggleBtn"
+      aria-pressed="false"
+    >
+      Výpočet plochy
+    </button>
   </div>
-
-  <button
-    type="button"
-    class="mode-toggle mode-toggle--calc"
-    id="pressureCalcToggleBtn"
-    aria-pressed="false"
-  >
-    Výpočet tlaku
-  </button>
-
-  <button
-    type="button"
-    class="mode-toggle mode-toggle--weight"
-    id="weightCalcToggleBtn"
-    aria-pressed="false"
-  >
-    Výpočet tíhy
-  </button>
-
-  <button
-    type="button"
-    class="mode-toggle mode-toggle--area"
-    id="areaCalcToggleBtn"
-    aria-pressed="false"
-  >
-    Výpočet plochy
-  </button>
 
   <div class="side-panel">
     <div class="stats-panel" aria-live="polite">
@@ -131,12 +131,9 @@
       <button type="button" class="math-keypad__key" data-key="1">1</button>
       <button type="button" class="math-keypad__key" data-key="2">2</button>
       <button type="button" class="math-keypad__key" data-key="3">3</button>
-      <button type="button" class="math-keypad__key" data-key=",">,</button>
+      <button type="button" class="math-keypad__key math-keypad__key--ok" data-key="ok">OK</button>
       <button type="button" class="math-keypad__key" data-key="0">0</button>
       <button type="button" class="math-keypad__key math-keypad__key--action" data-key="backspace" aria-label="Smazat">⌫</button>
-      <button type="button" class="math-keypad__key math-keypad__key--verify" data-key="verify">
-        Ověřit
-      </button>
     </div>
   </div>
 

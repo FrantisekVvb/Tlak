@@ -205,9 +205,9 @@ function buildBoxSvgMarkup(widthUnits, heightUnits) {
 
   return [
     `<svg class="cube__svg" viewBox="0 0 ${round(g.vbW)} ${round(g.vbH)}" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">`,
-    `<path d="${outline}" fill="#C8D4FA"/>`,
-    `<path d="${outline}${edges}" stroke="#003CFF" stroke-width="3"/>`,
-    `<path class="cube__base-edges" d="${baseEdges}" stroke="#C41212" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`,
+    `<path d="${outline}" fill="#d7e0f4"/>`,
+    `<path d="${outline}${edges}" stroke="#3d5a9a" stroke-width="3"/>`,
+    `<path class="cube__base-edges" d="${baseEdges}" stroke="#dc2626" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`,
     "</svg>",
   ].join("");
 }
@@ -369,8 +369,8 @@ function verifyPressureInput() {
   const roundedInput = Math.round(value * 10) / 10;
   const roundedCorrect = Math.round(getCorrectPressure() * 10) / 10;
   if (Math.abs(roundedInput - roundedCorrect) < 0.05) {
-    showPressureFeedback("Správně!", "success");
     setWeightVisible(true);
+    showPressureFeedback("Správně!", "success");
     return;
   }
 
@@ -387,8 +387,8 @@ function verifyWeightInput() {
   const roundedInput = Math.round(value * 10) / 10;
   const roundedCorrect = Math.round(getTotalWeight() * 10) / 10;
   if (Math.abs(roundedInput - roundedCorrect) < 0.05) {
-    showWeightFeedback("Správně!", "success");
     setWeightVisible(true);
+    showWeightFeedback("Správně!", "success");
     return;
   }
 
@@ -405,8 +405,8 @@ function verifyAreaInput() {
   const roundedInput = Math.round(value * 10) / 10;
   const roundedCorrect = Math.round(getTotalArea() * 10) / 10;
   if (Math.abs(roundedInput - roundedCorrect) < 0.05) {
-    showAreaFeedback("Správně!", "success");
     setWeightVisible(true);
+    showAreaFeedback("Správně!", "success");
     return;
   }
 
@@ -475,18 +475,6 @@ function updateTotalWeight() {
   totalWeightValue.textContent = totalWeight.toLocaleString("cs-CZ");
   totalAreaValue.textContent = String(totalArea);
   updatePressureDisplay();
-
-  if (appMode === "pressure") {
-    clearPressureFeedback();
-  }
-
-  if (appMode === "weight") {
-    clearWeightFeedback();
-  }
-
-  if (appMode === "area") {
-    clearAreaFeedback();
-  }
 }
 
 function removeWeightMarkers() {
@@ -681,10 +669,10 @@ function refreshFloorHighlights() {
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     path.classList.add("floor-tile__highlight");
     path.setAttribute("d", buildMergedTileHighlightPath(fromId, toId));
-    path.setAttribute("fill", "#EB2A2A");
-    path.setAttribute("fill-opacity", "0.35");
-    path.setAttribute("stroke", "#C41212");
-    path.setAttribute("stroke-width", "5");
+    path.setAttribute("fill", "#dc2626");
+    path.setAttribute("fill-opacity", "0.22");
+    path.setAttribute("stroke", "#dc2626");
+    path.setAttribute("stroke-width", "4");
     path.setAttribute("stroke-linejoin", "round");
     floorHighlightLayer.appendChild(path);
   }
@@ -1134,6 +1122,12 @@ function getActiveCalcInput() {
   return null;
 }
 
+function clearActiveCalcFeedback() {
+  if (appMode === "pressure") clearPressureFeedback();
+  if (appMode === "weight") clearWeightFeedback();
+  if (appMode === "area") clearAreaFeedback();
+}
+
 function insertIntoCalcInput(text) {
   const input = getActiveCalcInput();
   if (!input) return;
@@ -1142,6 +1136,7 @@ function insertIntoCalcInput(text) {
     if (input.value.includes(",") || input.value.includes(".")) return;
   }
 
+  clearActiveCalcFeedback();
   input.value += text;
   input.focus();
 }
@@ -1150,6 +1145,7 @@ function deleteFromCalcInput() {
   const input = getActiveCalcInput();
   if (!input) return;
 
+  clearActiveCalcFeedback();
   input.value = input.value.slice(0, -1);
   input.focus();
 }
@@ -1182,7 +1178,7 @@ function onMathKeypadClick(event) {
     return;
   }
 
-  if (key === "verify") {
+  if (key === "ok") {
     verifyActiveCalcInput();
     return;
   }

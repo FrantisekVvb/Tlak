@@ -1,3 +1,44 @@
+@font-face {
+  font-family: "Fenomen Sans";
+  src: url("assets/fonts/FenomenSans-Book.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fenomen Sans";
+  src: url("assets/fonts/FenomenSans-SemiBold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fenomen Sans";
+  src: url("assets/fonts/FenomenSans-SemiBold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --bg: #f4f5f8;
+  --panel-bg: #ffffff;
+  --text: #171923;
+  --muted: #6b7280;
+  --accent: #3d5a9a;
+  --accent-hover: #334b81;
+  --accent-soft: #f4f7ff;
+  --border: #e8eaef;
+  --area-muted: #eceff5;
+  --readout-bg: #f4f5f8;
+  --success: #059669;
+  --danger: #dc2626;
+  --cube-fill: #d7e0f4;
+  --cube-stroke: #3d5a9a;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -7,64 +48,64 @@
 body {
   min-height: 100vh;
   min-height: 100dvh;
-  background: #ffffff;
-  color: #1a1a1a;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Fenomen Sans", ui-sans-serif, system-ui, sans-serif;
   touch-action: manipulation;
 }
 
 .toolbar--modes {
   position: fixed;
-  top: 16px;
+  top: 50%;
   left: 16px;
   z-index: 25;
   display: flex;
+  flex-direction: column;
+  align-items: stretch;
   gap: 8px;
+  transform: translateY(-50%);
 }
 
 .mode-toggle {
-  padding: 10px 14px;
-  border: 2px solid #1a1a1a;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
   border-radius: 10px;
-  background: #fff;
+  background: var(--panel-bg);
+  color: var(--text);
   font: inherit;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-}
-
-.mode-toggle--calc {
-  position: fixed;
-  top: 58px;
-  left: 16px;
-  z-index: 25;
-}
-
-.mode-toggle--weight {
-  position: fixed;
-  top: 100px;
-  left: 16px;
-  z-index: 25;
-}
-
-.mode-toggle--area {
-  position: fixed;
-  top: 142px;
-  left: 16px;
-  z-index: 25;
-}
-
-.mode-toggle[aria-pressed="true"] {
-  background: #1a1a1a;
-  color: #fff;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.08s ease;
 }
 
 .mode-toggle:hover {
-  background: #f5f5f5;
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.mode-toggle:active {
+  transform: translateY(1px);
+}
+
+.mode-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.mode-toggle[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #ffffff;
 }
 
 .mode-toggle[aria-pressed="true"]:hover {
-  background: #333;
+  border-color: var(--accent-hover);
+  background: var(--accent-hover);
 }
 
 .side-panel {
@@ -77,6 +118,13 @@ body {
   gap: 10px;
   align-items: stretch;
   max-width: min(92vw, 320px);
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: var(--panel-bg);
+  box-shadow: 0 12px 32px rgba(23, 25, 35, 0.06);
+  transform: scale(1.1);
+  transform-origin: top right;
 }
 
 .stats-panel {
@@ -86,16 +134,18 @@ body {
 }
 
 .stats-panel__item {
-  padding: 10px 14px;
-  border: 2px solid #1a1a1a;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
   border-radius: 10px;
-  background: #fff;
-  font-size: 0.92rem;
+  background: var(--readout-bg);
+  color: var(--text);
+  font-size: 0.9rem;
   font-weight: 600;
   white-space: nowrap;
 }
 
 .stats-panel__value {
+  color: var(--accent);
   font-variant-numeric: tabular-nums;
 }
 
@@ -139,24 +189,26 @@ body {
   display: inline-flex;
   align-items: center;
   min-width: 72px;
-  border: 2px solid #1a1a1a;
-  border-radius: 6px;
-  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel-bg);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .stats-panel__field:focus-within {
-  outline: 2px solid #1a1a1a;
-  outline-offset: 1px;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(61, 90, 154, 0.12);
+  outline: none;
 }
 
 .stats-panel__input {
   width: 72px;
-  padding: 4px 6px;
+  padding: 6px 8px;
   border: 0;
   background: transparent;
-  color: #1a1a1a;
+  color: var(--text);
   font: inherit;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
@@ -171,21 +223,21 @@ body {
 }
 
 .stats-panel__feedback.is-success {
-  color: #15803d;
+  color: var(--success);
 }
 
 .stats-panel__feedback.is-error {
-  color: #b91c1c;
+  color: var(--danger);
 }
 
 .math-keypad {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 6px;
-  padding: 10px;
-  border: 2px solid #1a1a1a;
-  border-radius: 10px;
-  background: #fff;
+  padding: 4px 0 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .math-keypad[hidden] {
@@ -195,34 +247,61 @@ body {
 .math-keypad__key {
   min-height: 40px;
   padding: 8px;
-  border: 2px solid #1a1a1a;
-  border-radius: 8px;
-  background: #fff;
-  color: #1a1a1a;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel-bg);
+  color: var(--text);
   font: inherit;
   font-size: 1.05rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   cursor: pointer;
   touch-action: manipulation;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.08s ease;
 }
 
 .math-keypad__key:hover {
-  background: #f5f5f5;
+  border-color: var(--accent);
+  background: var(--readout-bg);
 }
 
 .math-keypad__key:active {
-  background: #1a1a1a;
+  transform: translateY(1px);
+  background: var(--accent);
+  border-color: var(--accent);
   color: #fff;
+}
+
+.math-keypad__key:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .math-keypad__key--action {
   font-size: 1.15rem;
 }
 
-.math-keypad__key--verify {
-  grid-column: 1 / -1;
-  font-size: 0.92rem;
+.math-keypad__key--ok {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.math-keypad__key--ok:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: #fff;
+}
+
+.math-keypad__key--ok:active {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: #fff;
 }
 
 .scene {
@@ -262,7 +341,13 @@ body {
 }
 
 .floor-tile__shape {
-  transition: stroke 140ms ease;
+  fill: #e8eaef;
+  stroke: #9aa3b5;
+  transition: stroke 140ms ease, fill 140ms ease;
+}
+
+.floor-tile__label {
+  fill: var(--muted);
 }
 
 .floor-tile__highlight {
@@ -320,11 +405,11 @@ body.mode-hide-floor .cube__base-edges {
   position: absolute;
   z-index: 2;
   transform: translate(-50%, -50%);
-  color: #003cff;
+  color: var(--accent);
   font-size: clamp(0.7rem, 1.7vw, 0.95rem);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: "Fenomen Sans", ui-sans-serif, system-ui, sans-serif;
   line-height: 1;
   white-space: nowrap;
   pointer-events: none;
@@ -353,14 +438,14 @@ body.mode-object-locked .cube-handle {
   width: 18px;
   height: 18px;
   padding: 0;
-  border: 2px solid #003cff;
+  border: 2px solid var(--accent);
   border-radius: 50%;
   background: #fff;
   transform: translate(-50%, -50%);
   cursor: grab;
   pointer-events: auto;
   touch-action: none;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 2px 6px rgba(23, 25, 35, 0.12);
 }
 
 .cube-handle--width {
@@ -373,7 +458,7 @@ body.mode-object-locked .cube-handle {
 
 .cube-handle:hover,
 .cube-handle:focus-visible {
-  background: #e8eeff;
+  background: var(--accent-soft);
   outline: none;
 }
 
@@ -381,7 +466,7 @@ body.mode-object-locked .cube-handle {
 .cube.is-resizing {
   cursor: grabbing;
   z-index: 40;
-  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.18));
+  filter: drop-shadow(0 4px 10px rgba(23, 25, 35, 0.16));
 }
 
 .cube.is-resizing .cube-handle--width {
@@ -405,16 +490,20 @@ body.mode-object-locked .cube-handle {
   overflow: visible;
 }
 
+.weight-display__arrow-shaft,
+.weight-display__arrow-head {
+  fill: var(--text);
+}
+
 .weight-display__label-text {
-  fill: #000000;
+  fill: var(--text);
   font-size: 11px;
   font-weight: 700;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: "Fenomen Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
 @media (max-width: 480px) {
   .toolbar--modes {
-    top: 12px;
     left: 12px;
     gap: 6px;
   }
@@ -424,25 +513,12 @@ body.mode-object-locked .cube-handle {
     font-size: 0.84rem;
   }
 
-  .mode-toggle--calc {
-    top: 52px;
-    left: 12px;
-  }
-
-  .mode-toggle--weight {
-    top: 92px;
-    left: 12px;
-  }
-
-  .mode-toggle--area {
-    top: 132px;
-    left: 12px;
-  }
-
   .side-panel {
     top: 12px;
     right: 12px;
     gap: 8px;
+    padding: 10px;
+    border-radius: 18px;
   }
 
   .stats-panel {
@@ -450,13 +526,12 @@ body.mode-object-locked .cube-handle {
   }
 
   .stats-panel__item {
-    padding: 8px 12px;
+    padding: 8px 10px;
     font-size: 0.84rem;
   }
 
   .math-keypad {
     gap: 5px;
-    padding: 8px;
   }
 
   .math-keypad__key {
