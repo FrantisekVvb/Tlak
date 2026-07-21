@@ -211,10 +211,15 @@ body {
   font-size: 0.9rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
+  caret-color: var(--accent);
 }
 
 .stats-panel__input:focus {
   outline: none;
+}
+
+.stats-panel__input[readonly] {
+  cursor: default;
 }
 
 .stats-panel__feedback {
